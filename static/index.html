@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoL RAG Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>LoL RAG Assistant</h1>
+            <p>Your AI consultant for League of Legends</p>
+        </header>
+
+        <main>
+            <section class="query-section">
+                <form action="/query" method="post">
+                    <div class="input-group">
+                        <textarea 
+                            name="query" 
+                            id="query" 
+                            placeholder="Ask about champion recommendations, builds, matchups..."
+                            required
+                            rows="4"
+                        >{{ query if query else "" }}</textarea>
+                    </div>
+                    <div class="options">
+                        <label>
+                            <input type="checkbox" name="show_sources" id="show_sources" {% if show_sources %}checked{% endif %}>
+                            Show sources
+                        </label>
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </section>
+
+            {% if error %}
+            <section class="error-section">
+                <div class="error">{{ error }}</div>
+            </section>
+            {% endif %}
+
+            {% if result %}
+            <section class="result-section">
+                <h2>Result</h2>
+                <div class="result">{{ result | safe }}</div>
+            </section>
+            {% endif %}
+
+            {% if sources %}
+            <section class="sources-section">
+                <h2>Sources</h2>
+                <div class="sources">{{ sources | safe }}</div>
+            </section>
+            {% endif %}
+
+            <section class="examples-section">
+                <h2>Example Questions</h2>
+                <ul class="examples">
+                    <li><a href="#" class="example-link">What are the best champions for MID?</a></li>
+                    <li><a href="#" class="example-link">What is the win rate of Ahri?</a></li>
+                    <li><a href="#" class="example-link">What is the best build for Aatrox?</a></li>
+                    <li><a href="#" class="example-link">Compare Jinx and Caitlyn as ADC picks</a></li>
+                    <li><a href="#" class="example-link">How should I play Shaco jungle early game?</a></li>
+                </ul>
+            </section>
+        </main>
+
+        <footer>
+            <p>LoL RAG Assistant | Powered by AI and up-to-date game data</p>
+            <p class="disclaimer">This service is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends.</p>
+        </footer>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
